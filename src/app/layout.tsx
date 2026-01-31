@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Jarvis, { JarvisWelcome } from "@/components/Jarvis";
+import KeyboardShortcuts from "@/components/KeyboardShortcuts";
 
 export const metadata: Metadata = {
   title: "Project Manager - JARVIS",
@@ -18,6 +19,7 @@ export default function RootLayout({
         <JarvisWelcome onComplete={() => {}} />
         {children}
         <Jarvis />
+        <KeyboardShortcuts />
       </body>
     </html>
   );

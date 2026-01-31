@@ -218,3 +218,113 @@ export function getTagColor(tag: string): string {
   const hash = tag.split("").reduce((a, b) => a + b.charCodeAt(0), 0);
   return colors[hash % colors.length];
 }
+
+// Activity Log
+export interface Activity {
+  id: string;
+  type: "task_created" | "task_completed" | "task_updated" | "project_created" | "comment_added";
+  projectSlug: string;
+  projectName: string;
+  taskId?: number;
+  taskText?: string;
+  description: string;
+  timestamp: string;
+  user: string;
+}
+
+const ACTIVITY_LOG_FILE = path.join(process.env.HOME || "/home/xecutor", "dev", "projects", "activity.json");
+
+export function getActivityLog(limit: number = 50): Activity[] {
+  try {
+    if (fs.existsSync(ACTIVITY_LOG_FILE)) {
+      const data = JSON.parse(fs.readFileSync(ACTIVITY_LOG_FILE, "utf-8"));
+      return data.slice(-limit).reverse();
+    }
+  } catch {
+    // File doesn't exist or is corrupted
+  }
+  return [];
+}
+
+export function addActivity(activity: Omit<Activity, "id" | "timestamp">): Activity {
+  const newActivity: Activity = {
+    ...activity,
+    id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+    timestamp: new Date().toISOString(),
+  };
+
+  try {
+    let activities: Activity[] = [];
+    if (fs.existsSync(ACTIVITY_LOG_FILE)) {
+      try {
+        activities = JSON.parse(fs.readFileSync(ACTIVITY_LOG_FILE, "utf-8"));
+      } catch {
+        activities = [];
+      }
+    }
+    activities.push(newActivity);
+    // Keep only last 500 activities
+    if (activities.length > 500) {
+      activities = activities.slice(-500);
+    }
+    fs.writeFileSync(ACTIVITY_LOG_FILE, JSON.stringify(activities, null, 2));
+  } catch {
+    // Silent fail if we can't write activity log
+  }
+
+  return newActivity;
+}
+
+export function logTaskCreated(projectSlug: string, projectName: string, taskText: string, user: string = "CLAWD") {
+  return addActivity({
+    type: "task_created",
+    projectSlug,
+    projectName,
+    taskText,
+    description: `Created task "${taskText}"`,
+    user,
+  });
+}
+
+export function logTaskCompleted(projectSlug: string, projectName: string, taskText: string, user: string = "CLAWD") {
+  return addActivity({
+    type: "task_completed",
+    projectSlug,
+    projectName,
+    taskText,
+    description: `Completed task "${taskText}"`,
+    user,
+  });
+}
+
+export function logProjectCreated(projectName: string, user: string = "CLAWD") {
+  return addActivity({
+    type: "project_created",
+    projectSlug: projectName.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+    projectName,
+    description: `Created project "${projectName}"`,
+    user,
+  });
+}
+
+export function getActivityColor(type: Activity["type"]): string {
+  switch (type) {
+    case "task_created": return "bg-blue-900/50 text-blue-300 border-blue-700";
+    case "task_completed": return "bg-green-900/50 text-green-300 border-green-700";
+    case "task_updated": return "bg-yellow-900/50 text-yellow-300 border-yellow-700";
+    case "project_created": return "bg-purple-900/50 text-purple-300 border-purple-700";
+    case "comment_added": return "bg-gray-900/50 text-gray-300 border-gray-700";
+    default: return "bg-gray-800 text-gray-300 border-gray-700";
+  }
+}
+
+export function getActivityIcon(type: Activity["type"]): string {
+  switch (type) {
+    case "task_created": return "+";
+    case "task_completed": return "✓";
+    case "task_updated": return "↻";
+    case "project_created": return "📁";
+    case "comment_added": return "💬";
+    default: return "•";
+  }
+}

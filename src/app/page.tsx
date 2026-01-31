@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getProjects, getPriorityBadge, getTagColor } from "@/lib/projects";
-import { Folder, CheckCircle, Clock, Plus, User, Calendar as CalendarIcon, Tag, Search } from "lucide-react";
+import { Folder, CheckCircle, Clock, Plus, User, Calendar as CalendarIcon, Tag, Search, Activity } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -26,6 +26,13 @@ export default function Home() {
           </div>
           <div className="flex gap-3">
             <Link 
+              href="/activity"
+              className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"
+            >
+              <Activity size={18} />
+              Activity
+            </Link>
+            <Link 
               href="/search"
               className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"
             >
@@ -44,7 +51,7 @@ export default function Home() {
               className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 px-4 py-2 rounded-lg transition"
             >
               <Plus size={18} />
-              New Project
+              New
             </Link>
           </div>
         </header>

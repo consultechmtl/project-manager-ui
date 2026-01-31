@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getProjects, getPriorityBadge, getTagColor } from "@/lib/projects";
-import { Folder, CheckCircle, Clock, Plus, User, Calendar as CalendarIcon, Tag, Search, Activity } from "lucide-react";
+import { Folder, CheckCircle, Clock, Plus, User, Calendar as CalendarIcon, Tag, Search, Activity, BookOpen, Download } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -25,6 +25,20 @@ export default function Home() {
             <p className="text-gray-400 mt-1">AI-powered task management with JARVIS</p>
           </div>
           <div className="flex gap-3">
+            <Link 
+              href="/templates"
+              className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"
+            >
+              <BookOpen size={18} />
+              Templates
+            </Link>
+            <Link 
+              href="/export"
+              className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"
+            >
+              <Download size={18} />
+              Export
+            </Link>
             <Link 
               href="/activity"
               className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"

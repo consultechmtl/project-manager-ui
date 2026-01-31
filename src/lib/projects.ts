@@ -328,3 +328,248 @@ export function getActivityIcon(type: Activity["type"]): string {
     default: return "•";
   }
 }
+
+// ===== PROJECT TEMPLATES =====
+
+export interface ProjectTemplate {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  tasks: Array<{
+    text: string;
+    priority: "HIGH" | "MEDIUM" | "LOW";
+    assigned: string;
+    dueDays: number;
+    tags?: string[];
+  }>;
+}
+
+export const PROJECT_TEMPLATES: ProjectTemplate[] = [
+  {
+    id: "software-launch",
+    name: "Software Launch",
+    description: "Complete project for launching a new software product",
+    category: "Development",
+    tasks: [
+      { text: "Define product requirements", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 1, tags: ["planning"] },
+      { text: "Create technical architecture", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 3, tags: ["architecture"] },
+      { text: "Set up development environment", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 5, tags: ["devops"] },
+      { text: "Implement core features", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 14, tags: ["development"] },
+      { text: "Write unit tests", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 18, tags: ["testing"] },
+      { text: "Conduct code review", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 20, tags: ["quality"] },
+      { text: "Performance testing", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 24, tags: ["testing"] },
+      { text: "Bug fixes", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 28, tags: ["bugfix"] },
+      { text: "Documentation", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 30, tags: ["docs"] },
+      { text: "Deploy to staging", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 32, tags: ["devops"] },
+      { text: "User acceptance testing", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 35, tags: ["testing"] },
+      { text: "Final bug fixes", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 38, tags: ["bugfix"] },
+      { text: "Deploy to production", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 40, tags: ["release"] },
+      { text: "Post-launch monitoring", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 42, tags: ["monitoring"] },
+    ],
+  },
+  {
+    id: "marketing-campaign",
+    name: "Marketing Campaign",
+    description: "End-to-end marketing campaign execution",
+    category: "Marketing",
+    tasks: [
+      { text: "Define campaign goals and KPIs", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 1, tags: ["strategy"] },
+      { text: "Identify target audience", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 2, tags: ["strategy"] },
+      { text: "Create campaign messaging", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 4, tags: ["creative"] },
+      { text: "Design visual assets", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 7, tags: ["design"] },
+      { text: "Set up landing pages", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 10, tags: ["web"] },
+      { text: "Configure ad accounts", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 12, tags: ["ads"] },
+      { text: "Create content calendar", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 14, tags: ["content"] },
+      { text: "Write blog posts/articles", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 18, tags: ["content"] },
+      { text: "Create social media posts", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 21, tags: ["social"] },
+      { text: "Email sequence setup", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 24, tags: ["email"] },
+      { text: "Launch campaign", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 28, tags: ["launch"] },
+      { text: "Monitor and optimize ads", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 35, tags: ["ads"] },
+      { text: "Track analytics", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 40, tags: ["analytics"] },
+      { text: "Generate campaign report", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 45, tags: ["reporting"] },
+    ],
+  },
+  {
+    id: "content-creation",
+    name: "Content Creation",
+    description: "Systematic content creation workflow",
+    category: "Content",
+    tasks: [
+      { text: "Research topic/trends", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 1, tags: ["research"] },
+      { text: "Create content brief", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 2, tags: ["planning"] },
+      { text: "Write first draft", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 5, tags: ["writing"] },
+      { text: "Add images/media", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 7, tags: ["media"] },
+      { text: "SEO optimization", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 8, tags: ["seo"] },
+      { text: "Internal review", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 10, tags: ["review"] },
+      { text: "Editor review", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 12, tags: ["review"] },
+      { text: "Final revisions", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 14, tags: ["editing"] },
+      { text: "Publish content", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 15, tags: ["publish"] },
+      { text: "Share on social media", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 16, tags: ["social"] },
+      { text: "Track performance", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 22, tags: ["analytics"] },
+    ],
+  },
+  {
+    id: "meeting-prep",
+    name: "Meeting Preparation",
+    description: "Prepare for important meetings efficiently",
+    category: "Productivity",
+    tasks: [
+      { text: "Define meeting agenda", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 0, tags: ["planning"] },
+      { text: "Gather relevant documents", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 0, tags: ["research"] },
+      { text: "Review previous meeting notes", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 0, tags: ["research"] },
+      { text: "Prepare talking points", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 0, tags: ["prep"] },
+      { text: "Anticipate questions", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 0, tags: ["prep"] },
+      { text: "Set up presentation materials", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 0, tags: ["presentation"] },
+      { text: "Test technology/AV", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 0, tags: ["technical"] },
+      { text: "Send calendar invite/reminder", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 1, tags: ["logistics"] },
+    ],
+  },
+  {
+    id: "weekly-review",
+    name: "Weekly Review",
+    description: "Regular weekly planning and review session",
+    category: "Productivity",
+    tasks: [
+      { text: "Review last week's goals", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 0, tags: ["review"] },
+      { text: "Review calendar for upcoming week", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 0, tags: ["planning"] },
+      { text: "Process inbox/emails", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 0, tags: ["admin"] },
+      { text: "Update task list", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 0, tags: ["planning"] },
+      { text: "Set top 3 priorities for week", priority: "HIGH", assigned: "UNASSIGNED", dueDays: 0, tags: ["planning"] },
+      { text: "Block time for deep work", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 0, tags: ["time-management"] },
+      { text: "Review ongoing projects", priority: "MEDIUM", assigned: "UNASSIGNED", dueDays: 0, tags: ["review"] },
+      { text: "Clean up workspace/files", priority: "LOW", assigned: "UNASSIGNED", dueDays: 1, tags: ["organization"] },
+    ],
+  },
+];
+
+export function getTemplates(): ProjectTemplate[] {
+  return PROJECT_TEMPLATES;
+}
+
+export function getTemplate(id: string): ProjectTemplate | undefined {
+  return PROJECT_TEMPLATES.find(t => t.id === id);
+}
+
+export function getTemplatesByCategory(): Record<string, ProjectTemplate[]> {
+  const categories: Record<string, ProjectTemplate[]> = {};
+  for (const template of PROJECT_TEMPLATES) {
+    if (!categories[template.category]) {
+      categories[template.category] = [];
+    }
+    categories[template.category].push(template);
+  }
+  return categories;
+}
+
+// ===== PROJECT EXPORT/IMPORT =====
+
+export function exportProjectToJSON(project: Project): string {
+  return JSON.stringify({
+    name: project.name,
+    slug: project.slug,
+    description: project.description,
+    status: project.status,
+    tasks: project.tasks,
+    exportedAt: new Date().toISOString(),
+  }, null, 2);
+}
+
+export function exportProjectToCSV(project: Project): string {
+  const headers = ["ID", "Task", "Priority", "Assigned", "Due Date", "Tags", "Status", "Description"];
+  const rows = project.tasks.map(task => [
+    task.id.toString(),
+    `"${task.text.replace(/"/g, '""')}"`,
+    task.priority,
+    task.assigned,
+    task.dueDate || "",
+    `"${(task.tags || []).join(", ")}"`,
+    task.completed ? "Completed" : "Pending",
+    `"${(task.description || "").replace(/"/g, '""')}"`,
+  ]);
+  
+  return [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+}
+
+export function exportAllProjectsToJSON(projects: Project[]): string {
+  return JSON.stringify({
+    exportedAt: new Date().toISOString(),
+    projects: projects.map(p => ({
+      name: p.name,
+      slug: p.slug,
+      description: p.description,
+      status: p.status,
+      tasks: p.tasks,
+    })),
+  }, null, 2);
+}
+
+export function importProjectFromJSON(jsonString: string): Partial<Project> | null {
+  try {
+    const data = JSON.parse(jsonString);
+    return {
+      name: data.name,
+      slug: data.slug,
+      description: data.description,
+      status: data.status || "active",
+      tasks: data.tasks || [],
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function createProjectFromTemplate(template: ProjectTemplate, projectName: string): Project {
+  const slug = projectName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const today = new Date();
+  const tasks = template.tasks.map((t, i) => ({
+    id: i + 1,
+    text: t.text,
+    priority: t.priority,
+    assigned: t.assigned,
+    dueDate: t.dueDays === 0 ? today.toISOString().split("T")[0] : undefined,
+    tags: t.tags || [],
+    completed: false,
+    subtasks: [],
+  }));
+  
+  tasks.forEach((task, i) => {
+    if (template.tasks[i].dueDays > 0) {
+      const dueDate = new Date(today);
+      dueDate.setDate(dueDate.getDate() + template.tasks[i].dueDays);
+      task.dueDate = dueDate.toISOString().split("T")[0];
+    }
+  });
+  
+  return {
+    name: projectName,
+    slug,
+    description: template.description,
+    created: today.toISOString().split("T")[0],
+    status: "active",
+    tasks,
+  };
+}
+
+// ===== PROJECT CLONING =====
+
+export function cloneProject(sourceProject: Project, newName: string): Project {
+  const slug = newName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const today = new Date().toISOString().split("T")[0];
+  const tasks = sourceProject.tasks.map((t, i) => ({
+    ...t,
+    id: i + 1,
+    completed: false,
+    completedDate: undefined,
+    dueDate: t.dueDate ? today : undefined,
+  }));
+  
+  return {
+    name: newName,
+    slug,
+    description: sourceProject.description,
+    created: today,
+    status: "active",
+    tasks,
+  };
+}

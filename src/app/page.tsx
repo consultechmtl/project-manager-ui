@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getProjects, getPriorityBadge } from "@/lib/projects";
-import { Folder, CheckCircle, Clock, Plus } from "lucide-react";
+import { getProjects, getPriorityBadge, getTagColor } from "@/lib/projects";
+import { Folder, CheckCircle, Clock, Plus, User, Calendar, Tag } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -69,19 +69,40 @@ export default function Home() {
                 </span>
               </div>
               
-              <div className="flex gap-2 flex-wrap">
-                {project.tasks
-                  .filter(t => !t.completed)
-                  .slice(0, 3)
-                  .map(task => (
-                    <span key={task.id} className={getPriorityBadge(task.priority)}>
-                      {task.priority}
-                    </span>
-                  ))}
-                {project.tasks.filter(t => !t.completed).length > 3 && (
-                  <span className="text-gray-500 text-sm">+ more</span>
-                )}
-              </div>
+              {/* Task preview */}
+              {project.tasks.filter(t => !t.completed).length > 0 && (
+                <div className="space-y-2 mt-4">
+                  {project.tasks
+                    .filter(t => !t.completed)
+                    .slice(0, 2)
+                    .map(task => (
+                      <div key={task.id} className="flex items-center gap-2 text-sm">
+                        <span className={getPriorityBadge(task.priority)}>{task.priority}</span>
+                        <span className="text-gray-300">{task.text}</span>
+                        {task.assigned && task.assigned !== "UNASSIGNED" && (
+                          <span className="flex items-center gap-1 text-gray-500 text-xs">
+                            <User size={10} />
+                            {task.assigned}
+                          </span>
+                        )}
+                        {task.dueDate && (
+                          <span className="flex items-center gap-1 text-orange-400 text-xs">
+                            <Calendar size={10} />
+                            {task.dueDate}
+                          </span>
+                        )}
+                        {task.tags?.slice(0, 2).map(tag => (
+                          <span key={tag} className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-xs ${getTagColor(tag)}`}>
+                            <Tag size={8} />
+                          </span>
+                        ))}
+                      </div>
+                    ))}
+                  {project.tasks.filter(t => !t.completed).length > 2 && (
+                    <p className="text-gray-500 text-sm">+ {project.tasks.filter(t => !t.completed).length - 2} more tasks</p>
+                  )}
+                </div>
+              )}
             </Link>
           ))}
 

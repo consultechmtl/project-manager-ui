@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getProjects, getPriorityBadge, getTagColor } from "@/lib/projects";
-import { Folder, CheckCircle, Clock, Plus, User, Calendar as CalendarIcon, Tag } from "lucide-react";
+import { Folder, CheckCircle, Clock, Plus, User, Calendar as CalendarIcon, Tag, Search } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -25,6 +25,13 @@ export default function Home() {
             <p className="text-gray-400 mt-1">AI-powered task management with JARVIS</p>
           </div>
           <div className="flex gap-3">
+            <Link 
+              href="/search"
+              className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"
+            >
+              <Search size={18} />
+              Search
+            </Link>
             <Link 
               href="/calendar"
               className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"
@@ -101,7 +108,6 @@ export default function Home() {
                 </span>
               </div>
               
-              {/* Task preview */}
               {project.tasks.filter(t => !t.completed).slice(0, 3).map(task => (
                 <div key={task.id} className="flex items-center gap-2 text-sm mt-2">
                   <span className={getPriorityBadge(task.priority)}>{task.priority}</span>

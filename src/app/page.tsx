@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getProjects, getPriorityBadge, getTagColor } from "@/lib/projects";
-import { Folder, CheckCircle, Clock, Plus, User, Calendar, Tag } from "lucide-react";
+import { Folder, CheckCircle, Clock, Plus, User, Calendar as CalendarIcon, Tag } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -20,15 +20,47 @@ export default function Home() {
     <main className="min-h-screen p-8">
       <div className="max-w-4xl mx-auto">
         <header className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-cyan-400">Project Manager</h1>
-          <Link 
-            href="/new"
-            className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 px-4 py-2 rounded-lg transition"
-          >
-            <Plus size={18} />
-            New Project
-          </Link>
+          <div>
+            <h1 className="text-3xl font-bold text-cyan-400">Project Manager</h1>
+            <p className="text-gray-400 mt-1">AI-powered task management with JARVIS</p>
+          </div>
+          <div className="flex gap-3">
+            <Link 
+              href="/calendar"
+              className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"
+            >
+              <CalendarIcon size={18} />
+              Calendar
+            </Link>
+            <Link 
+              href="/new"
+              className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 px-4 py-2 rounded-lg transition"
+            >
+              <Plus size={18} />
+              New Project
+            </Link>
+          </div>
         </header>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+            <p className="text-gray-400 text-sm">Active Projects</p>
+            <p className="text-2xl font-bold text-white">{activeProjects.length}</p>
+          </div>
+          <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+            <p className="text-gray-400 text-sm">Pending Tasks</p>
+            <p className="text-2xl font-bold text-cyan-400">
+              {projects.reduce((acc, p) => acc + p.tasks.filter(t => !t.completed).length, 0)}
+            </p>
+          </div>
+          <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+            <p className="text-gray-400 text-sm">Completed Tasks</p>
+            <p className="text-2xl font-bold text-green-400">
+              {projects.reduce((acc, p) => acc + p.tasks.filter(t => t.completed).length, 0)}
+            </p>
+          </div>
+        </div>
 
         <div className="flex gap-4 mb-6">
           <button
@@ -70,38 +102,28 @@ export default function Home() {
               </div>
               
               {/* Task preview */}
-              {project.tasks.filter(t => !t.completed).length > 0 && (
-                <div className="space-y-2 mt-4">
-                  {project.tasks
-                    .filter(t => !t.completed)
-                    .slice(0, 2)
-                    .map(task => (
-                      <div key={task.id} className="flex items-center gap-2 text-sm">
-                        <span className={getPriorityBadge(task.priority)}>{task.priority}</span>
-                        <span className="text-gray-300">{task.text}</span>
-                        {task.assigned && task.assigned !== "UNASSIGNED" && (
-                          <span className="flex items-center gap-1 text-gray-500 text-xs">
-                            <User size={10} />
-                            {task.assigned}
-                          </span>
-                        )}
-                        {task.dueDate && (
-                          <span className="flex items-center gap-1 text-orange-400 text-xs">
-                            <Calendar size={10} />
-                            {task.dueDate}
-                          </span>
-                        )}
-                        {task.tags?.slice(0, 2).map(tag => (
-                          <span key={tag} className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-xs ${getTagColor(tag)}`}>
-                            <Tag size={8} />
-                          </span>
-                        ))}
-                      </div>
-                    ))}
-                  {project.tasks.filter(t => !t.completed).length > 2 && (
-                    <p className="text-gray-500 text-sm">+ {project.tasks.filter(t => !t.completed).length - 2} more tasks</p>
+              {project.tasks.filter(t => !t.completed).slice(0, 3).map(task => (
+                <div key={task.id} className="flex items-center gap-2 text-sm mt-2">
+                  <span className={getPriorityBadge(task.priority)}>{task.priority}</span>
+                  <span className="text-gray-300">{task.text}</span>
+                  {task.assigned && task.assigned !== "UNASSIGNED" && (
+                    <span className="flex items-center gap-1 text-gray-500 text-xs">
+                      <User size={10} />
+                      {task.assigned}
+                    </span>
+                  )}
+                  {task.dueDate && (
+                    <span className="flex items-center gap-1 text-orange-400 text-xs">
+                      <CalendarIcon size={10} />
+                      {task.dueDate}
+                    </span>
                   )}
                 </div>
+              ))}
+              {project.tasks.filter(t => !t.completed).length > 3 && (
+                <p className="text-gray-500 text-sm mt-2">
+                  + {project.tasks.filter(t => !t.completed).length - 3} more tasks
+                </p>
               )}
             </Link>
           ))}
@@ -110,6 +132,9 @@ export default function Home() {
             <div className="text-center py-12 text-gray-500">
               <Folder size={48} className="mx-auto mb-4 opacity-50" />
               <p>No {activeTab} projects</p>
+              <Link href="/new" className="text-cyan-400 hover:underline mt-2 block">
+                Create your first project
+              </Link>
             </div>
           )}
         </div>

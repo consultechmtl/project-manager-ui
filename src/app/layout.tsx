@@ -3,6 +3,7 @@ import "./globals.css";
 import Jarvis, { JarvisWelcome } from "@/components/Jarvis";
 import KeyboardShortcuts from "@/components/KeyboardShortcuts";
 import NotificationCenter from "@/components/notifications/NotificationCenter";
+import QuickAddWidget from "@/components/QuickAddWidget";
 
 export const metadata: Metadata = {
   title: "Project Manager - JARVIS",
@@ -24,6 +25,7 @@ export default function RootLayout({
         {children}
         <Jarvis />
         <KeyboardShortcuts />
+        <QuickAddWidget />
       </body>
     </html>
   );

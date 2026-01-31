@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getProjects, getPriorityBadge, getTagColor } from "@/lib/projects";
-import { Folder, CheckCircle, Clock, Plus, User, Calendar as CalendarIcon, Tag, Search, Activity, BookOpen, Download, Kanban, Table } from "lucide-react";
+import { Folder, CheckCircle, Clock, Plus, User, Calendar as CalendarIcon, Tag, Search, Activity, BookOpen, Download, Kanban, Table, Settings } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -85,7 +85,7 @@ export default function Home() {
         </header>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-4 gap-4 mb-8">
           <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
             <p className="text-gray-400 text-sm">Active Projects</p>
             <p className="text-2xl font-bold text-white">{activeProjects.length}</p>
@@ -100,6 +100,12 @@ export default function Home() {
             <p className="text-gray-400 text-sm">Completed Tasks</p>
             <p className="text-2xl font-bold text-green-400">
               {projects.reduce((acc, p) => acc + p.tasks.filter(t => t.completed).length, 0)}
+            </p>
+          </div>
+          <div className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+            <p className="text-gray-400 text-sm">Overdue</p>
+            <p className="text-2xl font-bold text-red-400">
+              {projects.reduce((acc, p) => acc + p.tasks.filter(t => !t.completed && t.dueDate && new Date(t.dueDate) < new Date()).length, 0)}
             </p>
           </div>
         </div>
@@ -123,6 +129,14 @@ export default function Home() {
             <CheckCircle size={18} />
             Completed ({completedProjects.length})
           </button>
+          <div className="flex-1" />
+          <Link 
+            href="/settings"
+            className="flex items-center gap-2 text-gray-400 hover:text-white transition px-4 py-2"
+          >
+            <Settings size={18} />
+            Settings
+          </Link>
         </div>
 
         <div className="grid gap-4">
